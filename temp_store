@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+# Constants
+temp_root_dir="/tmp"
+
+# Parse arguments
+eval "$(slap parse bash _ -- "$@" <<-EOF
+name: temp_store
+version: "1.0"
+about: Create temporary files
+author: Elias Watson <me@eliaswatson.dev>
+
+settings:
+    - ArgRequiredElseHelp
+    - ColorAuto
+
+global_settings:
+    - ColoredHelp
+
+subcommands:
+    - session:
+        about: Create a session for temporary files
+        version: "1.0"
+        author: Elias Watson <me@eliaswatson.dev>
+    - file:
+        about: Get the path to a file in a temporary files session
+        version: "1.0"
+        author: Elias Watson <me@eliaswatson.dev>
+        args:
+            - uuid:
+                help: session UUID
+                required: true
+            - name:
+                help: name of file
+                required: true
+EOF
+)"; [[ -z "${_success}" ]] && exit 1
+
+# Handle subcommands
+if [[ "${_subcommand}" == "session" ]]; then
+    session_uuid=$(uuid)    
+    mkdir "${temp_root_dir}/${session_uuid}"
+    echo "$session_uuid"
+elif [[ "${_subcommand}" == "file" ]]; then
+    echo "${temp_root_dir}/${_file_uuid_vals}/${_file_name_vals}"
+fi
+
