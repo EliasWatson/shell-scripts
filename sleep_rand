@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-# Sleep for a random amount of time
-
 # Parse arguments
 eval "$(slap parse bash _ -- "$@" <<-EOF
 name: sleep_rand
 version: "1.0"
 about: Sleep for a random amount of time
+author: Elias Watson <me@eliaswatson.dev>
 
 settings:
     - ArgRequiredElseHelp
