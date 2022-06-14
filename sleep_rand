@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Sleep for a random amount of time
+
+# Parse arguments
+eval "$(slap parse bash _ -- "$@" <<-EOF
+name: sleep_rand
+version: "1.0"
+about: Sleep for a random amount of time
+
+settings:
+    - ArgRequiredElseHelp
+    - ColorAuto
+
+global_settings:
+    - ColoredHelp
+
+args:
+    - lower_bound:
+        help: minimum number of seconds
+        long: lower-bound
+        short: l
+        default_value: "0.5"
+    - upper_bound:
+        help: maximum number of seconds. Can be absolute or an offset of the lower bound
+        long: upper-bound
+        short: u
+        default_value: "+1"
+EOF
+)"; [[ -z "${_success}" ]] && exit 1
+
+# Handle arguments
+sleep_min="${_lower_bound_vals}"
+if [[ "${_upper_bound_vals}" =~ ^\+.+ ]]; then
+    sleep_width=$(echo "${_upper_bound_vals}" | sed -E 's/\+([[:digit:]]+)/\1/g')
+else
+    sleep_width=$(echo "${_upper_bound_vals} - $sleep_min" | eva)
+fi
+
+# Generate random sleep duration
+sleep_rand=$(random float)
+sleep_duration=$(echo "($sleep_rand * $sleep_width) + $sleep_min" | eva)
+
+# Perform the sleep
+sleep "$sleep_duration"
+
