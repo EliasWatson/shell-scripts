@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Parse arguments
+eval "$(slap parse bash _ -- "$@" <<-EOF
+name: json_merge
+version: "1.0"
+about: Merge a JSON dictionary with a JSON file
+author: Elias Watson <me@eliaswatson.dev>
+
+settings:
+    - ArgRequiredElseHelp
+    - ColorAuto
+
+global_settings:
+    - ColoredHelp
+
+args:
+    - file:
+        help: JSON file to merge into. Does not have to exist"
+        required: true
+    - merge_filter:
+        help: jq filter for merging the JSON data
+        long: merge-filter
+        short: m
+        default_value: ".[0] * .[1]"
+EOF
+)"; [[ -z "${_success}" ]] && exit 1
+
+# Rename arguments
+out_file="${_file_vals}"
+merge_filter="${_merge_filter_vals}"
+
+# Create the output file if it doesn't exist
+if [ ! -f "$out_file" ]; then
+    echo '{}' > "$out_file"
+fi
+
+# Create temporary files
+temp_session=$(temp_store session)
+temp_file_copy=$(temp_store file $temp_session "existing_data.json")
+temp_file_in=$(temp_store file $temp_session "input_data.json")
+
+# Copy existing data to temporary file
+cp "$out_file" "$temp_file_copy"
+
+# Read STDIN into temporary file
+jq '.' <&0 > "$temp_file_in"
+
+# Merge files
+jq -s "$merge_filter" "$temp_file_copy" "$temp_file_in" > "$out_file"
+
