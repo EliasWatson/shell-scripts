@@ -49,3 +49,6 @@ jq '.' <&0 > "$temp_file_in"
 # Merge files
 jq -s "$merge_filter" "$temp_file_copy" "$temp_file_in" > "$out_file"
 
+# Cleanup temporary files
+temp_store cleanup $temp_session
+

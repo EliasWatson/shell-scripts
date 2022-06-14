@@ -33,6 +33,14 @@ subcommands:
             - name:
                 help: name of file
                 required: true
+    - cleanup:
+        about: Cleanup a temporary files session
+        version: "1.0"
+        author: Elias Watson <me@eliaswatson.dev>
+        args:
+            - uuid:
+                help: session UUID
+                required: true
 EOF
 )"; [[ -z "${_success}" ]] && exit 1
 
@@ -43,5 +51,7 @@ if [[ "${_subcommand}" == "session" ]]; then
     echo "$session_uuid"
 elif [[ "${_subcommand}" == "file" ]]; then
     echo "${temp_root_dir}/${_file_uuid_vals}/${_file_name_vals}"
+elif [[ "${_subcommand}" == "cleanup" ]]; then
+    rm -rf "${temp_root_dir}/${_cleanup_uuid_vals}"
 fi
 
