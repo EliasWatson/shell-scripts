@@ -21,6 +21,12 @@ The file does not have to exist.
 A custom jq filter for merging can be passed with `--merge-filter`/`-m`.
 By default, it is `.[0] * .[1]`.
 
+### `pad_num`
+Pad an integer number with zeros to a specific length.
+
+The number can be passed as an argument with `pad_num <digits> <num>`.
+Or it can be passed through STDIN with `... | pad_num <digits>`.
+
 ### `sleep_rand`
 Sleep for a random amount of time.
 By default, 0.5 to 1.5 seconds.

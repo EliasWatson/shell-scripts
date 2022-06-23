@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+in_digits="$1"
+if [ -z "$in_digits" ]; then
+    echo "Usage: $0 <digits> [number]"
+    exit 1
+fi
+
+if [ -z "$2" ]; then
+    in_num=$(awk '{print $0}')
+else
+    in_num="$2"
+fi
+
+printf "%0${in_digits}d" "$in_num"
+
