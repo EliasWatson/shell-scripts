@@ -67,6 +67,13 @@ Pad an integer number with zeros to a specific length.
 The number can be passed as an argument with `pad_num <digits> <num>`.
 Or it can be passed through STDIN with `... | pad_num <digits>`.
 
+```console
+$ pad_num 5 42
+00042
+$ echo "1337" | pad_num 10
+0000001337
+```
+
 ### `timestamp`
 Get the current Unix timestamp.
 
