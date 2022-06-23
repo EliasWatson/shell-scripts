@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+timestamp_fmt="s"
+
+if [ ! -z "$1" ]; then
+    timestamp_fmt="$1"
+fi
+
+if [ "$timestamp_fmt" == "s" ]; then
+    date "+%s"
+elif [ "$timestamp_fmt" == "ms" ]; then
+    echo "$(date "+%s")$(date "+%N" | awk '{print $0 "/1000000"}' | bc | pad_num 3)"
+elif [ "$timestamp_fmt" == "ns" ]; then
+    echo "$(date "+%s")$(date "+%N" | pad_num 9)"
+else
+    echo "Unknown timestamp format."
+    echo "Valid formats: s, ms, ns"
+    exit 1
+fi
+
