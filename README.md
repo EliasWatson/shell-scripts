@@ -81,6 +81,15 @@ Get the current Unix timestamp.
 - In milliseconds: `timestamp ms`
 - In nanoseconds: `timestamp ns`
 
+```console
+$ timestamp
+1655950718
+$ timestamp ms
+1655950726576
+$ timestamp ns
+1655950734234913495
+```
+
 ### `sleep_rand`
 Sleep for a random amount of time.
 By default, 0.5 to 1.5 seconds.
