@@ -36,6 +36,31 @@ The file does not have to exist.
 A custom jq filter for merging can be passed with `--merge-filter`/`-m`.
 By default, it is `.[0] * .[1]`.
 
+```console
+$ cat example.json
+{
+  "item_1": {
+    "name": "First Item"
+  },
+  "item_2": {
+    "name": "Second Item"
+  }
+}
+$ echo '{ "item_3": { "name": "Third Item" } }' | json_merge example.json
+$ cat example.json
+{
+  "item_1": {
+    "name": "First Item"
+  },
+  "item_2": {
+    "name": "Second Item"
+  },
+  "item_3": {
+    "name": "Third Item"
+  }
+}
+```
+
 ### `pad_num`
 Pad an integer number with zeros to a specific length.
 
