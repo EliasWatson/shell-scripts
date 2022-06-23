@@ -14,6 +14,21 @@ My personal collection of useful shell scripts.
 ### `json_fmt`
 Format a JSON file with jq.
 
+```console
+$ cat example.json
+{ "key": 42, "numbers": [1, 2, 3] }
+$ json_fmt example.json
+$ cat example.json
+{
+  "key": 42,
+  "numbers": [
+    1,
+    2,
+    3
+  ]
+}
+```
+
 ### `json_merge`
 Merge a JSON dictionary from STDIN with a JSON file.
 The file does not have to exist.
