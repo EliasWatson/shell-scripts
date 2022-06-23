@@ -120,8 +120,24 @@ Benchmark 1: sleep_rand -l 1.0 -u +0.5
 Create temporary files.
 A unique path is automatically generated, so collisions are avoided.
 
-A session can be generated with `temp_store session <name>`, where `name` is the name of your program/script.
+A session can be generated with `temp_store session`.
 A UUID will be returned through STDOUT.
 
 File paths can be generated with `temp_store file <uuid> <name>`, where `uuid` is the UUID of the session and `name` is the name of the file.
+
+The temporary folder can be deleted with `temp_store cleanup <uuid>`, where `uuid` is the UUIS of the session.
+
+```console
+$ temp_store session
+63e7b8285a624bb694af05f3d941a473
+$ tmp_file=$(temp_store file 63e7b8285a624bb694af05f3d941a473 "example.txt")
+$ echo $tmp_file
+/tmp/63e7b8285a624bb694af05f3d941a473/example.txt
+$ echo "Example File" > $tmp_file
+$ cat $tmp_file
+Example File
+$ temp_store cleanup 63e7b8285a624bb694af05f3d941a473
+$ cat $tmp_file
+cat: /tmp/63e7b8285a624bb694af05f3d941a473/example.txt: No such file or directory
+```
 
