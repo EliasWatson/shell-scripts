@@ -97,6 +97,25 @@ By default, 0.5 to 1.5 seconds.
 The range can be specified with the `--lower-bound`/`-l` and `--upper-bound`/`-u` arguments.
 The upper bound can be a number (eg. `5`) or an offset from the lower bound (eg. `+2.3`).
 
+```console
+$ hyperfine "sleep_rand"
+Benchmark 1: sleep_rand
+  Time (mean ± σ):      1.173 s ±  0.303 s    [User: 0.179 s, System: 0.022 s]
+  Range (min … max):    0.767 s …  1.589 s    10 runs
+$ hyperfine "sleep_rand -l 0.1"
+Benchmark 1: sleep_rand -l 0.1
+  Time (mean ± σ):     773.3 ms ± 327.0 ms    [User: 182.3 ms, System: 19.3 ms]
+  Range (min … max):   349.9 ms … 1252.3 ms    10 runs
+$ hyperfine "sleep_rand -l 0.5 -u 2.0"
+Benchmark 1: sleep_rand -l 0.5 -u 2.0
+  Time (mean ± σ):      1.403 s ±  0.300 s    [User: 0.181 s, System: 0.018 s]
+  Range (min … max):    0.998 s …  1.804 s    10 runs
+$ hyperfine "sleep_rand -l 1.0 -u +0.5"
+Benchmark 1: sleep_rand -l 1.0 -u +0.5
+  Time (mean ± σ):      1.362 s ±  0.122 s    [User: 0.180 s, System: 0.019 s]
+  Range (min … max):    1.199 s …  1.591 s    10 runs
+```
+
 ### `temp_store`
 Create temporary files.
 A unique path is automatically generated, so collisions are avoided.
