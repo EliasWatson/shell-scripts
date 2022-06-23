@@ -11,6 +11,9 @@ My personal collection of useful shell scripts.
 | [random-cli](https://github.com/AmrSaber/random-cli)     | Random number generation _(Looking to replace)_ |
 
 ## Scripts
+### `json_fmt`
+Format a JSON file with jq.
+
 ### `json_merge`
 Merge a JSON dictionary from STDIN with a JSON file.
 The file does not have to exist.

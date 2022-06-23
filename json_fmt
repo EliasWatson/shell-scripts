@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Parse arguments
+eval "$(slap parse bash _ -- "$@" <<-EOF
+name: json_fmt
+version: "1.0"
+about: Format a JSON file with jq
+author: Elias Watson <me@eliaswatson.dev>
+
+settings:
+    - ArgRequiredElseHelp
+    - ColorAuto
+
+global_settings:
+    - ColoredHelp
+
+args:
+    - file:
+        help: JSON file to format
+        required: true
+EOF
+)"; [[ -z "${_success}" ]] && exit 1
+
+# Rename arguments
+json_file="${_file_vals}"
+
+# Create temporary file
+temp_session=$(temp_store session)
+temp_file_copy=$(temp_store file $temp_session "copy.json")
+
+# Copy file to temporary file
+cp "$json_file" "$temp_file_copy"
+
+# Format file and output to original file
+jq '.' "$temp_file_copy" > "$json_file"
+
+# Cleanup temporary files
+temp_store cleanup $temp_session
+
